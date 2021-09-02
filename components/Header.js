@@ -6,6 +6,7 @@ const Header = (props) => {
   return (
     <View style={styles.header}>
       <Text style={styles.headerTitle}>{props.title}</Text>
+      <Text style={styles.text}>but by a computer</Text>
     </View>
   );
 };
@@ -13,7 +14,7 @@ const Header = (props) => {
 const styles = StyleSheet.create({
   header: {
     width: "100%",
-    height: 90,
+    height: 100,
     paddingTop: 36,
     backgroundColor: colors.primary,
     alignItems: "center",
@@ -23,6 +24,9 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 24,
     fontWeight: "bold",
+  },
+  text: {
+    color: "#fff",
   },
 });
 
