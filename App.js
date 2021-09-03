@@ -5,28 +5,28 @@ import GameOver from "./screens/GameOver";
 import GameScreen from "./screens/GameScreen";
 import StartGameScreen from "./screens/StartGameScreen";
 
-let counter;
-
 const App = () => {
   const [userNumber, setUserNumber] = useState();
   const [isGameOver, setIsGameOver] = useState(false);
-  const [attemptCount, setAttemptCount] = useState(0);
+  const [attemptCount, setAttemptCount] = useState(1);
+
+  console.log("App rerender");
 
   const handleGameStart = (enteredNumber) => {
     setUserNumber(enteredNumber);
   };
 
-  const handleGameOver = (attemptsCounter) => {
-    counter = attemptsCounter;
+  const handleGameOver = () => {
     setIsGameOver(true);
   };
 
   const handleGameRestart = () => {
+    setAttemptCount(1);
     setIsGameOver(false);
   };
 
-  const handleAttemptCounterIncrement = () => {
-    setAttemptCount((prev) => prev++);
+  const handleAttemptCountIncrement = () => {
+    setAttemptCount((prev) => ++prev);
   };
 
   let content = <StartGameScreen onGameStart={handleGameStart} />;
@@ -35,14 +35,14 @@ const App = () => {
       <GameScreen
         userNumber={userNumber}
         onGameOver={handleGameOver}
-        incrementAttemptCount={handleAttemptCounterIncrement}
         attemptCount={attemptCount}
+        incrementAttemptCount={handleAttemptCountIncrement}
       />
     );
   }
   if (isGameOver) {
     content = (
-      <GameOver attemptsCounter={counter} onGameRestart={handleGameRestart} />
+      <GameOver attemptCount={attemptCount} onGameRestart={handleGameRestart} />
     );
   }
 

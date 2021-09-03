@@ -6,8 +6,8 @@ const GameOver = (props) => {
   return (
     <View style={styles.wrapper}>
       <Text style={styles.title}>Game over!</Text>
-      <Text style={styles.attemptsInfo}>
-        It took you {props.attemptsCounter} tries
+      <Text style={styles.attemptInfo}>
+        It took you {props.attemptCount} tries
       </Text>
       <Button
         title="Restart"
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.secondary,
   },
-  attemptsInfo: {
+  attemptInfo: {
     marginVertical: 8,
   },
 });
