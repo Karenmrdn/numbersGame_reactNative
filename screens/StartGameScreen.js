@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import {
   StyleSheet,
   View,
-  Text,
-  Button,
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
@@ -12,6 +10,9 @@ import Card from "../components/Card";
 import colors from "../constants/colors";
 import Input from "../components/Input";
 import NumberContainer from "../components/NumberContainer";
+import BodyText from "../components/BodyText";
+import TitleText from "../components/TitleText";
+import Button from "../components/Button";
 
 const StartGameScreen = (props) => {
   const [enteredValue, setEnteredValue] = useState("");
@@ -55,11 +56,12 @@ const StartGameScreen = (props) => {
   if (confirmed) {
     confirmOutput = (
       <Card style={styles.outputContainer}>
-        <Text>You have entered</Text>
+        <BodyText>You have entered</BodyText>
         <NumberContainer>{selectedNumber}</NumberContainer>
         <Button
           title="Start game"
           onPress={() => props.onGameStart(selectedNumber)}
+          style={styles.btnStart}
         />
       </Card>
     );
@@ -68,27 +70,29 @@ const StartGameScreen = (props) => {
   return (
     <TouchableWithoutFeedback onPress={handleKeyboardClose}>
       <View style={styles.screen}>
-        <Text style={styles.title}>The Game Screen</Text>
+        <TitleText style={styles.title}>The Game Screen</TitleText>
         <Card style={styles.inputContainer}>
-          <Text>Enter a number:</Text>
+          <BodyText>Enter a number:</BodyText>
           <Input
             style={styles.input}
+            blurOn
             keyboardType="number-pad"
             maxLength={2}
             value={enteredValue}
             onChangeText={handleInputTextChange}
           />
           <View style={styles.buttonsContainer}>
-            <View style={styles.btnWrapper}>
-              <Button onPress={handleReset} title="Reset" />
-            </View>
-            <View style={styles.btnWrapper}>
-              <Button
-                onPress={handleConfirm}
-                title="Confirm"
-                color={colors.primary}
-              />
-            </View>
+            <Button
+              onPress={handleReset}
+              title="Reset"
+              style={styles.btnReset}
+            />
+            <Button
+              onPress={handleConfirm}
+              title="Confirm"
+              color={colors.primary}
+              style={styles.btnConfirm}
+            />
           </View>
         </Card>
         {confirmOutput}
@@ -103,7 +107,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    fontSize: 16,
     marginVertical: 16,
   },
   inputContainer: {
@@ -116,9 +119,15 @@ const styles = StyleSheet.create({
     width: "65%",
     justifyContent: "space-between",
   },
-  btnWrapper: {
+  btnReset: {
     width: "45%",
-    borderRadius: 16,
+  },
+  btnConfirm: {
+    width: "45%",
+    backgroundColor: colors.secondary,
+  },
+  btnStart: {
+    backgroundColor: colors.secondary,
   },
   outputContainer: {
     marginTop: 16,

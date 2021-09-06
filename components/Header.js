@@ -1,12 +1,14 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import colors from "../constants/colors";
+import TitleText from "./TitleText";
+import BodyText from "./BodyText";
 
 const Header = (props) => {
   return (
     <View style={styles.header}>
-      <Text style={styles.headerTitle}>{props.title}</Text>
-      <Text style={styles.text}>but by a computer</Text>
+      <TitleText style={styles.headerTitle}>{props.title}</TitleText>
+      <BodyText style={styles.text}>{props.subtitle}</BodyText>
     </View>
   );
 };
@@ -23,7 +25,6 @@ const styles = StyleSheet.create({
   headerTitle: {
     color: "#fff",
     fontSize: 24,
-    fontWeight: "bold",
   },
   text: {
     color: "#fff",
