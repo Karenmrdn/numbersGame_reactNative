@@ -23,11 +23,11 @@ const GameScreen = ({
   onNewGuess,
   pastGuesses,
 }) => {
-  const initialGuess = getRandomIntInclusive(1, 99);
+  const initialGuess = getRandomIntInclusive(1, 99).toString();
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
 
   useEffect(() => {
-    if (currentGuess === userNumber) {
+    if (currentGuess === userNumber.toString()) {
       onGameOver();
     }
   }, [currentGuess, userNumber, onGameOver]);
@@ -50,12 +50,15 @@ const GameScreen = ({
     }
 
     if (isLower) {
-      currentHigh = currentGuess;
+      currentHigh = +currentGuess;
     } else {
-      currentLow = currentGuess;
+      currentLow = +currentGuess;
     }
 
-    const newGuess = getRandomIntInclusive(currentLow + 1, currentHigh - 1);
+    const newGuess = getRandomIntInclusive(
+      currentLow + 1,
+      currentHigh - 1
+    ).toString();
 
     setCurrentGuess(newGuess);
     onNewGuess(newGuess);
@@ -82,14 +85,25 @@ const GameScreen = ({
       </Card>
       <BodyText>Attempts counter: {attemptCount}</BodyText>
       <View style={styles.listContainer}>
-        <ScrollView contentContainerStyle={styles.list}>
+        {/* <ScrollView contentContainerStyle={styles.list}>
           {pastGuesses.map((guess, index) => (
             <View key={guess} style={styles.listItem}>
               <BodyText>#{pastGuesses.length - index}</BodyText>
               <BodyText>{guess}</BodyText>
             </View>
           ))}
-        </ScrollView>
+        </ScrollView> */}
+        <FlatList
+          data={pastGuesses}
+          keyExtractor={(item) => item}
+          renderItem={(itemData) => (
+            <View style={styles.listItem}>
+              <BodyText>#{pastGuesses.length - itemData.index}</BodyText>
+              <BodyText>{itemData.item}</BodyText>
+            </View>
+          )}
+          contentContainerStyle={styles.list}
+        />
       </View>
     </View>
   );
@@ -120,12 +134,13 @@ const styles = StyleSheet.create({
   listContainer: {
     marginTop: 8,
     flex: 1,
-    width: "80%",
+    width: "60%",
   },
   list: {
     flexGrow: 1,
-    alignItems: "center",
+    // alignItems: "center",
     justifyContent: "flex-end",
+    // width: "80%",
   },
   listItem: {
     flexDirection: "row",
@@ -133,10 +148,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.primary,
     borderRadius: 8,
-    // padding: 8,
-    padding: 40,
+    padding: 8,
     marginVertical: 4,
-    width: "80%",
+    width: "100%",
   },
 });
 
