@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Alert, FlatList, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Alert,
+  FlatList,
+  ScrollView,
+  Dimensions,
+} from "react-native";
 import NumberContainer from "../components/NumberContainer";
 import Card from "../components/Card";
 import TitleText from "../components/TitleText";
@@ -66,7 +73,7 @@ const GameScreen = ({
 
   return (
     <View style={styles.wrapper}>
-      <TitleText>Current guess:</TitleText>
+      <TitleText style={styles.title}>Current guess:</TitleText>
       <NumberContainer>{currentGuess}</NumberContainer>
       <Card style={styles.card}>
         <BodyText style={styles.cardText}>The actual number is</BodyText>
@@ -111,8 +118,11 @@ const GameScreen = ({
 
 const styles = StyleSheet.create({
   wrapper: {
-    alignItems: "center",
     flex: 1,
+    alignItems: "center",
+  },
+  title: {
+    marginTop: 16,
   },
   card: {
     width: "80%",
@@ -134,7 +144,7 @@ const styles = StyleSheet.create({
   listContainer: {
     marginTop: 8,
     flex: 1,
-    width: "60%",
+    width: Dimensions.get("window").width > 350 ? "60%" : "70%",
   },
   list: {
     flexGrow: 1,

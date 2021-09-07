@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  Dimensions,
+  ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 import Card from "../components/Card";
 import colors from "../constants/colors";
@@ -18,6 +21,20 @@ const StartGameScreen = (props) => {
   const [enteredValue, setEnteredValue] = useState("");
   const [confirmed, setConfirmed] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState();
+  const [buttonWidth, setButtonWidth] = useState(
+    Dimensions.get("window").width / 3.5
+  );
+
+  useEffect(() => {
+    const updateLayout = () => {
+      setButtonWidth(Dimensions.get("window").width / 3.5);
+    };
+    Dimensions.addEventListener("change", updateLayout);
+
+    return () => {
+      Dimensions.removeEventListener("change", updateLayout);
+    };
+  }, []);
 
   const handleInputTextChange = (value) => {
     if (value.includes(".") || value.includes(",")) {
@@ -68,46 +85,51 @@ const StartGameScreen = (props) => {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={handleKeyboardClose}>
-      <View style={styles.screen}>
-        <TitleText style={styles.title}>The Game Screen</TitleText>
-        <Card style={styles.inputContainer}>
-          <BodyText>Enter a number:</BodyText>
-          <Input
-            style={styles.input}
-            blurOn
-            keyboardType="number-pad"
-            maxLength={2}
-            value={enteredValue}
-            onChangeText={handleInputTextChange}
-          />
-          <View style={styles.buttonsContainer}>
-            <Button
-              onPress={handleReset}
-              title="Reset"
-              style={styles.btnReset}
-            />
-            <Button
-              onPress={handleConfirm}
-              title="Confirm"
-              color={colors.primary}
-              style={styles.btnConfirm}
-            />
+    <ScrollView>
+      <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={30}>
+        <TouchableWithoutFeedback onPress={handleKeyboardClose}>
+          <View style={styles.screen}>
+            <TitleText style={styles.title}>The Game Screen</TitleText>
+            <Card style={styles.inputContainer}>
+              <BodyText>Enter a number:</BodyText>
+              <Input
+                style={styles.input}
+                blurOn
+                keyboardType="number-pad"
+                maxLength={2}
+                value={enteredValue}
+                onChangeText={handleInputTextChange}
+              />
+              <View style={styles.buttonsContainer}>
+                <Button
+                  onPress={handleReset}
+                  title="Reset"
+                  style={[styles.btnReset, { width: buttonWidth }]}
+                />
+                <Button
+                  onPress={handleConfirm}
+                  title="Confirm"
+                  color={colors.primary}
+                  style={[styles.btnConfirm, { width: buttonWidth }]}
+                />
+              </View>
+            </Card>
+            {confirmOutput}
           </View>
-        </Card>
-        {confirmOutput}
-      </View>
-    </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
+    padding: 8,
     alignItems: "center",
   },
   title: {
-    marginVertical: 16,
+    marginBottom: 16,
   },
   inputContainer: {
     width: "80%",
@@ -116,14 +138,14 @@ const styles = StyleSheet.create({
   input: { width: "20%", textAlign: "center" },
   buttonsContainer: {
     flexDirection: "row",
-    width: "65%",
-    justifyContent: "space-between",
+    width: "90%",
+    justifyContent: "space-around",
   },
   btnReset: {
-    width: "45%",
+    // width: "45%",
   },
   btnConfirm: {
-    width: "45%",
+    // width: "45%",
     backgroundColor: colors.secondary,
   },
   btnStart: {
