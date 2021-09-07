@@ -6,6 +6,7 @@ import Card from "../components/Card";
 import NumberContainer from "../components/NumberContainer";
 import TitleText from "../components/TitleText";
 import colors from "../constants/colors";
+// import * as ScreenOrientation from "expo-screen-orientation";
 
 let currentLow;
 let currentHigh;
@@ -27,6 +28,8 @@ const GameScreen = ({
 }) => {
   const initialGuess = getRandomIntInclusive(1, 99).toString();
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
+
+  // ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
 
   useEffect(() => {
     currentLow = 1;

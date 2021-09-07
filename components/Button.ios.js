@@ -1,16 +1,16 @@
 import React from "react";
-import { TouchableOpacity, StyleSheet, Text } from "react-native";
+import { TouchableOpacity, View, StyleSheet } from "react-native";
 import colors from "../constants/colors";
 import BodyText from "./BodyText";
 
 const Button = (props) => {
   return (
-    <TouchableOpacity
-      onPress={props.onPress}
-      activeOpacity={0.8}
-      style={[styles.btn, props.style]}
-    >
-      <BodyText style={[styles.text, props.textStyle]}>{props.title}</BodyText>
+    <TouchableOpacity onPress={props.onPress} activeOpacity={0.8}>
+      <View style={[styles.btn, props.style]}>
+        <BodyText style={[styles.text, props.textStyle]}>
+          {props.title}
+        </BodyText>
+      </View>
     </TouchableOpacity>
   );
 };
