@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Alert, StyleSheet, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Alert, StyleSheet, View, Dimensions } from "react-native";
 import Header from "./components/Header";
 import GameOver from "./screens/GameOver";
 import GameScreen from "./screens/GameScreen";
@@ -26,6 +26,24 @@ const App = () => {
   const [isGameOver, setIsGameOver] = useState(false);
   const [pastGuesses, setPastGuesses] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [availableDeviceWidth, setAvailableDeviceWidth] = useState(
+    Dimensions.get("window").width
+  );
+  const [availableDeviceHeight, setAvailableDeviceHeight] = useState(
+    Dimensions.get("window").height
+  );
+
+  useEffect(() => {
+    const updateLayout = () => {
+      setAvailableDeviceWidth(Dimensions.get("window").width);
+      setAvailableDeviceHeight(Dimensions.get("window").height);
+    };
+    Dimensions.addEventListener("change", updateLayout);
+
+    return () => {
+      Dimensions.removeEventListener("change", updateLayout);
+    };
+  }, []);
 
   const handleGameStart = (enteredNumber) => {
     setUserNumber(enteredNumber);
@@ -70,6 +88,8 @@ const App = () => {
         attemptCount={pastGuesses.length}
         onNewGuess={handleNewGuess}
         pastGuesses={pastGuesses}
+        availableDeviceWidth={availableDeviceWidth}
+        availableDeviceHeight={availableDeviceHeight}
       />
     );
   }
@@ -79,6 +99,8 @@ const App = () => {
         attemptCount={pastGuesses.length}
         onSameNumberGameRestart={handleSameNumberGameRestart}
         onNewNumberGameRestart={handleNewNumberGameRestart}
+        availableDeviceWidth={availableDeviceWidth}
+        availableDeviceHeight={availableDeviceHeight}
       />
     );
   }

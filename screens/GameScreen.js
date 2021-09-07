@@ -1,17 +1,10 @@
-import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  View,
-  Alert,
-  FlatList,
-  ScrollView,
-  Dimensions,
-} from "react-native";
-import NumberContainer from "../components/NumberContainer";
-import Card from "../components/Card";
-import TitleText from "../components/TitleText";
+import React, { useEffect, useState } from "react";
+import { Alert, FlatList, StyleSheet, View } from "react-native";
 import BodyText from "../components/BodyText";
 import Button from "../components/Button";
+import Card from "../components/Card";
+import NumberContainer from "../components/NumberContainer";
+import TitleText from "../components/TitleText";
 import colors from "../constants/colors";
 
 let currentLow;
@@ -29,21 +22,23 @@ const GameScreen = ({
   attemptCount,
   onNewGuess,
   pastGuesses,
+  availableDeviceWidth,
+  availableDeviceHeight,
 }) => {
   const initialGuess = getRandomIntInclusive(1, 99).toString();
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
-
-  useEffect(() => {
-    if (currentGuess === userNumber.toString()) {
-      onGameOver();
-    }
-  }, [currentGuess, userNumber, onGameOver]);
 
   useEffect(() => {
     currentLow = 1;
     currentHigh = 99;
     onNewGuess(initialGuess);
   }, []);
+
+  useEffect(() => {
+    if (currentGuess === userNumber.toString()) {
+      onGameOver();
+    }
+  }, [currentGuess, userNumber, onGameOver]);
 
   const handleNextGuess = (isLower) => {
     if (
@@ -71,6 +66,46 @@ const GameScreen = ({
     onNewGuess(newGuess);
   };
 
+  if (availableDeviceHeight < 500) {
+    return (
+      <View style={styles.wrapper}>
+        <TitleText style={styles.title}>Current guess:</TitleText>
+        <View style={styles.smallScreenControls}>
+          <Button
+            title="Lower"
+            onPress={() => handleNextGuess(true)}
+            style={styles.btn}
+          />
+          <NumberContainer>{currentGuess}</NumberContainer>
+          <Button
+            title="Greater"
+            onPress={() => handleNextGuess(false)}
+            style={styles.btn}
+          />
+        </View>
+        <BodyText>Attempts counter: {attemptCount}</BodyText>
+        <View
+          style={[
+            styles.listContainer,
+            { width: availableDeviceWidth > 350 ? "60%" : "70%" },
+          ]}
+        >
+          <FlatList
+            data={pastGuesses}
+            keyExtractor={(item) => item}
+            renderItem={(itemData) => (
+              <View style={styles.listItem}>
+                <BodyText>#{pastGuesses.length - itemData.index}</BodyText>
+                <BodyText>{itemData.item}</BodyText>
+              </View>
+            )}
+            contentContainerStyle={styles.list}
+          />
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.wrapper}>
       <TitleText style={styles.title}>Current guess:</TitleText>
@@ -91,7 +126,12 @@ const GameScreen = ({
         </View>
       </Card>
       <BodyText>Attempts counter: {attemptCount}</BodyText>
-      <View style={styles.listContainer}>
+      <View
+        style={[
+          styles.listContainer,
+          { width: availableDeviceWidth > 350 ? "60%" : "70%" },
+        ]}
+      >
         {/* <ScrollView contentContainerStyle={styles.list}>
           {pastGuesses.map((guess, index) => (
             <View key={guess} style={styles.listItem}>
@@ -144,7 +184,6 @@ const styles = StyleSheet.create({
   listContainer: {
     marginTop: 8,
     flex: 1,
-    width: Dimensions.get("window").width > 350 ? "60%" : "70%",
   },
   list: {
     flexGrow: 1,
@@ -161,6 +200,12 @@ const styles = StyleSheet.create({
     padding: 8,
     marginVertical: 4,
     width: "100%",
+  },
+  smallScreenControls: {
+    width: "70%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 });
 

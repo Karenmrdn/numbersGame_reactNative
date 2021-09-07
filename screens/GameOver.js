@@ -1,17 +1,17 @@
 import React from "react";
 import {
-  View,
-  StyleSheet,
-  Image,
-  Text,
-  ScrollView,
   Dimensions,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
-import Card from "../components/Card";
-import colors from "../constants/colors";
 import BodyText from "../components/BodyText";
-import TitleText from "../components/TitleText";
 import Button from "../components/Button";
+import Card from "../components/Card";
+import TitleText from "../components/TitleText";
+import colors from "../constants/colors";
 
 const GameOver = (props) => {
   return (
