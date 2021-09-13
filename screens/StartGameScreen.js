@@ -104,7 +104,7 @@ const StartGameScreen = (props) => {
                 <Button
                   onPress={handleReset}
                   title="Reset"
-                  style={[styles.btnReset, { width: buttonWidth }]}
+                  style={{ width: buttonWidth }}
                 />
                 <Button
                   onPress={handleConfirm}
@@ -141,11 +141,7 @@ const styles = StyleSheet.create({
     width: "90%",
     justifyContent: "space-around",
   },
-  btnReset: {
-    // width: "45%",
-  },
   btnConfirm: {
-    // width: "45%",
     backgroundColor: colors.secondary,
   },
   btnStart: {

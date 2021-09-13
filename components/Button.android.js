@@ -17,29 +17,32 @@ const Button = (props) => {
   }
 
   return (
-    // <View style={styles.btnContainer}>
-    <ButtonComponent onPress={props.onPress} activeOpacity={0.8}>
-      <View style={[styles.btn, props.style]}>
-        <BodyText style={[styles.text, props.textStyle]}>
-          {props.title}
-        </BodyText>
-      </View>
-    </ButtonComponent>
-    // </View>
+    <View style={[styles.btnCont, props.style]}>
+      <ButtonComponent onPress={props.onPress} style={{ flex: 1 }}>
+        <View style={styles.btn}>
+          <BodyText style={[styles.text, props.textStyle]}>
+            {props.title}
+          </BodyText>
+        </View>
+      </ButtonComponent>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  btnContainer: {
+  btnCont: {
     borderRadius: 8,
     overflow: "hidden",
+    backgroundColor: colors.primary,
+    borderRadius: 8,
+    alignItems: "center",
   },
   btn: {
-    backgroundColor: colors.primary,
     padding: 8,
-    borderRadius: 8,
+    width: "100%",
   },
   text: {
+    width: "100%",
     color: "white",
     fontFamily: "open-sans-bold",
     textTransform: "uppercase",

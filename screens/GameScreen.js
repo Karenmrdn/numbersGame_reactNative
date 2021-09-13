@@ -176,12 +176,12 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   buttonContainer: {
-    width: "100%",
     flexDirection: "row",
+    width: "90%",
     justifyContent: "space-around",
   },
   btn: {
-    width: "35%",
+    width: "40%",
     backgroundColor: colors.secondary,
   },
   listContainer: {
@@ -190,9 +190,7 @@ const styles = StyleSheet.create({
   },
   list: {
     flexGrow: 1,
-    // alignItems: "center",
     justifyContent: "flex-end",
-    // width: "80%",
   },
   listItem: {
     flexDirection: "row",
